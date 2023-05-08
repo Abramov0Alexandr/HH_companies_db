@@ -4,13 +4,23 @@ from pandas import DataFrame
 
 
 class DataBaseManager:
+    """Класс для передачи SQL запросов созданной базе данных"""
     pd.set_option('display.max_columns', None)
 
     def __init__(self, data_base_name: str, connection_settings):
+        """
+        При создании класса необходимо передать следующие аргументы:
+        :param data_base_name: Наименование базы данных
+        :param connection_settings: Настройки подключения к базе данных
+        """
         self.__data_base_name = data_base_name
         self.__connection_settings = connection_settings
 
     def get_companies_and_vacancies_count(self) -> DataFrame:
+        """
+        SQL запрос для получения списка всех компаний и количество вакансий у каждой компании.
+        :return: Возвращает таблицу, согласно запросу
+        """
 
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
@@ -31,6 +41,11 @@ class DataBaseManager:
                 connection.close()
 
     def get_all_vacancies(self) -> DataFrame:
+        """
+        SQL запрос для получения списка список всех вакансий с указанием названия компании,
+        названия вакансии и зарплаты и ссылки на вакансию.
+        :return: Возвращает таблицу, согласно запросу
+        """
 
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
@@ -52,6 +67,10 @@ class DataBaseManager:
                 connection.close()
 
     def get_avg_salary(self) -> DataFrame:
+        """
+        SQL запрос для получения списка средних зарплат по вакансиям.
+        :return: Возвращает таблицу, согласно запросу
+        """
 
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
@@ -74,6 +93,10 @@ class DataBaseManager:
                 connection.close()
 
     def get_vacancies_with_higher_salary(self) -> DataFrame:
+        """
+        SQL запрос для получения списка всех вакансий, у которых зарплата выше средней по всем вакансиям.
+        :return: Возвращает таблицу, согласно запросу
+        """
 
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
@@ -96,6 +119,10 @@ class DataBaseManager:
                 connection.close()
 
     def get_vacancies_with_keyword(self, keyword: str) -> DataFrame:
+        """
+        SQL запрос для получения списка всех вакансий, в названии которых содержатся переданные в метод слова.
+        :return: Возвращает таблицу, согласно запросу
+        """
 
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:

@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 # Local configuration file
-database.ini
+DB_classes_and_config/database.ini
 
 # Distribution / packaging
 .Python

@@ -44,7 +44,7 @@ class DataBaseCreator:
                     cursor.execute("""
                     CREATE TABLE IF NOT EXISTS vacancies (
                         employer_id int,
-                        vacancy_title varchar() NOT NULL,
+                        vacancy_title varchar(100) NOT NULL,
                         salary_from real,
                         salary_to real,
                         url varchar(255) NOT NULL,
@@ -61,12 +61,12 @@ class DataBaseCreator:
             if connection:
                 connection.close()
 
-    def fill_the_tables(self, employees_data, vacancies_data) -> None:
+    def fill_the_tables(self, employers_data, vacancies_data) -> None:
         try:
             with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
                 with connection.cursor() as cursor:
 
-                    with open(employees_data) as file:
+                    with open(employers_data) as file:
                         file_reader = csv.DictReader(file, delimiter=',')
 
                         for i in file_reader:

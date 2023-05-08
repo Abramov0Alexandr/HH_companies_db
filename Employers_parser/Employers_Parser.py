@@ -6,7 +6,7 @@ class EmployersParser:
 
     __employer_url = 'https://api.hh.ru/employers?only_with_vacancies=true'
 
-    def get_employers(self, key_word: str) -> list[dict]:
+    def get_employers_data(self, key_word: str) -> list[dict]:
         params = {'text': key_word.lower(),
                   'per_page': 10,
                   'area': '113'}
@@ -21,7 +21,7 @@ class EmployersParser:
         return id_list
 
     def save_as_csv(self, filename: str, data: list) -> None:
-        filename = f"{filename.capitalize().strip()}.csv"
+        filename = f"{filename.capitalize().strip()}_employers.csv"
 
         with open(filename, mode='w', newline='') as csv_file:
             fieldnames = ['employer_id', 'employer_title', 'vacancy_count', 'url']

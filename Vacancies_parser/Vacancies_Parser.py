@@ -13,8 +13,8 @@ class VacanciesParser:
         response = requests.get(self.__vacancy_url, params=params).json()['items']
         return response
 
-    def save_as_csv(self, filename: str, data: list) -> None:
-        filename = f"{filename.capitalize().strip()}.csv"
+    def save_data_as_csv(self, filename: str, data: list) -> None:
+        filename = f"{filename.capitalize().strip()}_vacancies.csv"
 
         with open(filename, mode='w', newline='') as csv_file:
             fieldnames = ['employer_id', 'vacancy_title',

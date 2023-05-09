@@ -15,7 +15,7 @@ class VacanciesParser:
         """
 
         params = {'employer_id': indexes,
-                  'per_page': 150}
+                  'per_page': 100}
         response = requests.get(self.__vacancy_url, params=params).json()['items']
         return response
 

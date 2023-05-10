@@ -9,7 +9,7 @@ class VacanciesParser:
 
     def __init__(self):
         self.vacancies_list = []
-        self.pages_for_parse = 4
+        self.pages_for_parse = 5
 
     def __parsing_process(self, indexes, pages) -> list[dict]:
         """

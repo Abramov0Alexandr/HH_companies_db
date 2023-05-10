@@ -1,6 +1,6 @@
-import psycopg2
 import pandas as pd
 from pandas import DataFrame
+from sqlalchemy import create_engine
 
 
 class DataBaseManager:
@@ -16,20 +16,20 @@ class DataBaseManager:
         self.__data_base_name = data_base_name
         self.__connection_settings = connection_settings
 
-    def get_companies_and_vacancies_count(self) -> DataFrame:
+    def get_companies_and_vacancies_count(self) -> pd.DataFrame:
         """
         SQL запрос для получения списка всех компаний и количество вакансий у каждой компании.
         :return: Возвращает таблицу, согласно запросу
         """
-
         try:
-            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+            engine = create_engine(
+                f'postgresql://{self.__connection_settings["user"]}:'
+                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
+                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
 
-                sql_query = """SELECT employer_title, vacancy_count
-                                FROM public.employers"""
-
-                result = pd.read_sql(sql_query, connection)
-
+            sql_query = """SELECT employer_title, vacancy_count
+                            FROM public.employers"""
+            result = pd.read_sql(sql_query, engine)
             return result
 
         except Exception as e:
@@ -37,8 +37,7 @@ class DataBaseManager:
             print(e)
 
         finally:
-            if connection:
-                connection.close()
+            engine.dispose()
 
     def get_all_vacancies(self) -> DataFrame:
         """
@@ -48,14 +47,16 @@ class DataBaseManager:
         """
 
         try:
-            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+            engine = create_engine(
+                f'postgresql://{self.__connection_settings["user"]}:'
+                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
+                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
 
-                sql_query = """SELECT vacancy_title, employer_title, salary_from, salary_to, vacancies.url
-                                FROM employers
-                                JOIN public.vacancies USING(employer_id)"""
+            sql_query = """SELECT vacancy_title, employer_title, salary_from, salary_to, vacancies.url
+                            FROM employers
+                            JOIN public.vacancies USING(employer_id)"""
 
-                result = pd.read_sql(sql_query, connection)
-
+            result = pd.read_sql(sql_query, engine)
             return result
 
         except Exception as e:
@@ -63,8 +64,7 @@ class DataBaseManager:
             print(e)
 
         finally:
-            if connection:
-                connection.close()
+            engine.dispose()
 
     def get_avg_salary(self) -> DataFrame:
         """
@@ -73,15 +73,17 @@ class DataBaseManager:
         """
 
         try:
-            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+            engine = create_engine(
+                f'postgresql://{self.__connection_settings["user"]}:'
+                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
+                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
 
-                sql_query = """SELECT vacancy_title, AVG((salary_from + salary_to) / 2) AS avg_salary, url
-                                FROM public.vacancies
-                                GROUP BY vacancy_title, url
-                                ORDER BY avg_salary DESC"""
+            sql_query = """SELECT vacancy_title, AVG((salary_from + salary_to) / 2) AS avg_salary, url
+                            FROM public.vacancies
+                            GROUP BY vacancy_title, url
+                            ORDER BY avg_salary DESC"""
 
-                result = pd.read_sql(sql_query, connection)
-
+            result = pd.read_sql(sql_query, engine)
             return result
 
         except Exception as e:
@@ -89,8 +91,7 @@ class DataBaseManager:
             print(e)
 
         finally:
-            if connection:
-                connection.close()
+            engine.dispose()
 
     def get_vacancies_with_higher_salary(self) -> DataFrame:
         """
@@ -99,15 +100,17 @@ class DataBaseManager:
         """
 
         try:
-            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+            engine = create_engine(
+                f'postgresql://{self.__connection_settings["user"]}:'
+                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
+                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
 
-                sql_query = """SELECT vacancy_title, salary_from, url
-                                FROM vacancies
-                                WHERE salary_from > (SELECT AVG((salary_from + salary_to) / 2) FROM vacancies)
-                                ORDER BY salary_from DESC"""
+            sql_query = """SELECT vacancy_title, salary_from, url
+                            FROM vacancies
+                            WHERE salary_from > (SELECT AVG((salary_from + salary_to) / 2) FROM vacancies)
+                            ORDER BY salary_from DESC"""
 
-                result = pd.read_sql(sql_query, connection)
-
+            result = pd.read_sql(sql_query, engine)
             return result
 
         except Exception as e:
@@ -115,8 +118,7 @@ class DataBaseManager:
             print(e)
 
         finally:
-            if connection:
-                connection.close()
+            engine.dispose()
 
     def get_vacancies_with_keyword(self, keyword: str) -> DataFrame:
         """
@@ -125,14 +127,16 @@ class DataBaseManager:
         """
 
         try:
-            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+            engine = create_engine(
+                f'postgresql://{self.__connection_settings["user"]}:'
+                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
+                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
 
-                sql_query = f"""SELECT *
-                            FROM vacancies
-                            WHERE vacancy_title LIKE '%{keyword}%'"""
+            sql_query = f"""SELECT *
+                        FROM vacancies
+                        WHERE vacancy_title LIKE '%{keyword}%'"""
 
-                result = pd.read_sql(sql_query, connection)
-
+            result = pd.read_sql(sql_query, engine)
             return result
 
         except Exception as e:
@@ -140,5 +144,4 @@ class DataBaseManager:
             print(e)
 
         finally:
-            if connection:
-                connection.close()
+            engine.dispose()

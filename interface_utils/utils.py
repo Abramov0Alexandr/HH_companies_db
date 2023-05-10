@@ -64,9 +64,12 @@ def user_interface():
         7. Завершение работы программы.\n"""
         print(available_commands)
 
-        user_command = input('Для выбора команды, введите ее номер: '.strip())
+        user_command = input('Для выбора команды, введите ее номер: ').lower().strip()
 
         while user_command != '7':
+
+            if user_command == 'помощь':
+                print(available_commands)
 
             if user_command == '1':
                 print(dbm.get_companies_and_vacancies_count())
@@ -89,12 +92,9 @@ def user_interface():
 
                 print(dbm.get_vacancies_with_keyword(vacancy_keyword))
 
-            if user_command == '6':
-                print(available_commands)
-
-            elif user_command not in ('1', '2', '3', '4', '5', '6'):
+            elif user_command not in ('1', '2', '3', '4', '5', 'помощь'):
                 print('Команда не найдена, пожалуйста, повторите ввод')
 
-            user_command = input('\nДля выбора команды, введите ее номер: '.strip())
+            user_command = input('\nДля выбора команды, введите ее номер: ').lower().strip()
 
         exit(0)

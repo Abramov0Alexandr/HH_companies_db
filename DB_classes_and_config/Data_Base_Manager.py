@@ -1,5 +1,4 @@
 import pandas as pd
-from pandas import DataFrame
 from sqlalchemy import create_engine
 import psycopg2
 
@@ -40,7 +39,7 @@ class DataBaseManager:
         finally:
             engine.dispose()
 
-    def get_all_vacancies(self) -> DataFrame:
+    def get_all_vacancies(self) -> pd.DataFrame:
         """
         SQL запрос для получения списка список всех вакансий с указанием названия компании,
         названия вакансии и зарплаты и ссылки на вакансию.
@@ -67,7 +66,7 @@ class DataBaseManager:
         finally:
             engine.dispose()
 
-    def get_avg_salary(self) -> DataFrame:
+    def get_avg_salary(self) -> pd.DataFrame:
         """
         SQL запрос для получения списка средних зарплат по вакансиям.
         :return: Возвращает таблицу, согласно запросу
@@ -94,7 +93,7 @@ class DataBaseManager:
         finally:
             engine.dispose()
 
-    def get_vacancies_with_higher_salary(self) -> DataFrame:
+    def get_vacancies_with_higher_salary(self) -> pd.DataFrame:
         """
         SQL запрос для получения списка всех вакансий, у которых зарплата выше средней по всем вакансиям.
         :return: Возвращает таблицу, согласно запросу

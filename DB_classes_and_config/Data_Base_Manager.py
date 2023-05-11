@@ -1,6 +1,7 @@
 import pandas as pd
 from pandas import DataFrame
 from sqlalchemy import create_engine
+import psycopg2
 
 
 class DataBaseManager:
@@ -120,28 +121,27 @@ class DataBaseManager:
         finally:
             engine.dispose()
 
-    def get_vacancies_with_keyword(self, keyword: str) -> DataFrame:
+    def get_vacancies_with_keyword(self, keyword: str):
         """
         SQL запрос для получения списка всех вакансий, в названии которых содержатся переданные в метод слова.
         :return: Возвращает таблицу, согласно запросу
         """
 
         try:
-            engine = create_engine(
-                f'postgresql://{self.__connection_settings["user"]}:'
-                f'{self.__connection_settings["password"]}@{self.__connection_settings["host"]}:'
-                f'{self.__connection_settings["port"]}/{self.__data_base_name}')
-
-            sql_query = f"""SELECT *
+            with psycopg2.connect(dbname=self.__data_base_name, **self.__connection_settings) as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        f"""SELECT *
                         FROM vacancies
-                        WHERE vacancy_title LIKE '%{keyword}%'"""
+                        WHERE vacancy_title LIKE '%{keyword}%'""")
 
-            result = pd.read_sql(sql_query, engine)
-            return result
+                    for i in cursor.fetchall()[:15]:
+                        print(i)
 
         except Exception as e:
             print('[ERROR] Ошибка при выполнении запроса')
             print(e)
 
         finally:
-            engine.dispose()
+            if connection:
+                connection.close()

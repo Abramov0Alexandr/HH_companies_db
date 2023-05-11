@@ -96,7 +96,7 @@ def user_interface():
                     vacancy_keyword = input('Ключевое слово должно быть строкового типа\n'
                                             'Пожалуйста, повторите ввод: ').strip()
 
-                print(dbm.get_vacancies_with_keyword(vacancy_keyword))
+                dbm.get_vacancies_with_keyword(vacancy_keyword)
 
             elif user_command not in ('1', '2', '3', '4', '5', 'помощь'):
                 print('Команда не найдена, пожалуйста, повторите ввод')

@@ -93,7 +93,7 @@ class DataBaseCreator:
 
                         print('[INFO] Таблица employers успешно заполнена данными')
 
-                    with open(vacancies_data) as file:
+                    with open(vacancies_data, encoding='utf-8') as file:
                         file_reader = csv.DictReader(file, delimiter=',')
 
                         for i in file_reader:

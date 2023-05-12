@@ -48,7 +48,8 @@ def user_interface():
         dbc = DataBaseCreator(db_name, params)
         dbc.create_data_base()
         dbc.create_tables()
-        dbc.fill_the_tables(f"{company_keyword}_employers.csv", f"{company_keyword}_vacancies.csv")
+        dbc.fill_the_tables(f"{company_keyword.capitalize()}_employers.csv",
+                            f"{company_keyword.capitalize()}_vacancies.csv")
 
         dbm = DataBaseManager(db_name, config())
 

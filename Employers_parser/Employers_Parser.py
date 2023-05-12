@@ -43,11 +43,12 @@ class EmployersParser:
 
         with open(filename, mode='w', newline='') as csv_file:
             fieldnames = ['employer_id', 'employer_title', 'vacancy_count', 'url']
+
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            writer.writeheader()
             for item in data:
-                writer.writerow({'employer_id': int(item.get('id')),
-                                 'employer_title': str(item.get('name')),
-                                 'vacancy_count': int(item.get('open_vacancies')),
-                                 'url': str(item.get('alternate_url'))})
+                writer.writerow(
+                    {'employer_id': int(item.get('id')),
+                     'employer_title': str(item.get('name')),
+                     'vacancy_count': int(item.get('open_vacancies')),
+                     'url': str(item.get('alternate_url'))})

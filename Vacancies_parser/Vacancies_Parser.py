@@ -57,6 +57,7 @@ class VacanciesParser:
         filename = f"{filename.capitalize().strip()}_vacancies.csv"
 
         with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
+
             fieldnames = ['employer_id', 'vacancy_title',
                           'salary_from', 'salary_to', 'url']
 

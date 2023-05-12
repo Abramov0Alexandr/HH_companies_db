@@ -8,8 +8,8 @@ class VacanciesParser:
     __vacancy_url = 'https://api.hh.ru/vacancies'
 
     def __init__(self):
-        self.vacancies_list = []
-        self.pages_for_parse = 5
+        self.__vacancies_list = []
+        self.__pages_for_parse = 5
 
     def __parsing_process(self, indexes, pages) -> list[dict]:
         """
@@ -20,7 +20,7 @@ class VacanciesParser:
         """
 
         params = {'employer_id': indexes,
-                  'page': self.pages_for_parse,
+                  'page': self.__pages_for_parse,
                   'per_page': 100}
         return requests.get(self.__vacancy_url, params=params).json()['items']
 
@@ -31,9 +31,8 @@ class VacanciesParser:
         :return: Списковый словарь, содержащий информацию о всех вакансиях выбранных компаний
         """
 
-        self.vacancies_list = []
         for employer_id in indexes:
-            for page in range(0, self.pages_for_parse):
+            for page in range(0, self.__pages_for_parse):
                 params = {'employer_id': employer_id,
                           'page': page,
                           'per_page': 100}
@@ -42,11 +41,11 @@ class VacanciesParser:
                     data = response.json()['items']
                     if len(data) == 0:
                         break
-                    self.vacancies_list.extend(data)
+                    self.__vacancies_list.extend(data)
                 else:
                     break
 
-        return self.vacancies_list
+        return self.__vacancies_list
 
     def save_data_as_csv(self, filename: str, data: list[dict]) -> None:
         """
@@ -57,7 +56,7 @@ class VacanciesParser:
 
         filename = f"{filename.capitalize().strip()}_vacancies.csv"
 
-        with open(filename, mode='w', newline='') as csv_file:
+        with open(filename, mode='w', newline='', encoding='utf-8') as csv_file:
             fieldnames = ['employer_id', 'vacancy_title',
                           'salary_from', 'salary_to', 'url']
 

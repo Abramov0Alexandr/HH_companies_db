@@ -48,7 +48,8 @@ def user_interface():
         dbc = DataBaseCreator(db_name, params)
         dbc.create_data_base()
         dbc.create_tables()
-        dbc.fill_the_tables(f"{company_keyword}_employers.csv", f"{company_keyword}_vacancies.csv")
+        dbc.fill_the_tables(f"{company_keyword.capitalize()}_employers.csv",
+                            f"{company_keyword.capitalize()}_vacancies.csv")
 
         dbm = DataBaseManager(db_name, config())
 
@@ -89,7 +90,8 @@ def user_interface():
                 print(dbm.get_vacancies_with_higher_salary())
 
             if user_command == '5':
-                print('Поиск вакансий, содержащих ключевое слово в наименовании')
+                print('Поиск вакансий, содержащих ключевое слово в наименовании.'
+                      '[INFO] Регистр первой буквы в ключевом слове имеет значение!')
                 vacancy_keyword = input('Введите ключевое слово для поиска вакансии: ').strip()
 
                 while not vacancy_keyword.replace(' ', '').strip().isalpha():

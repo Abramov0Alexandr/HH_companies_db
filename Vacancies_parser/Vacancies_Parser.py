@@ -63,7 +63,6 @@ class VacanciesParser:
 
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            writer.writeheader()
             for item in data:
 
                 if item['salary'] is None:

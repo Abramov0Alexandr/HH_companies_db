@@ -90,7 +90,8 @@ def user_interface():
                 print(dbm.get_vacancies_with_higher_salary())
 
             if user_command == '5':
-                print('Поиск вакансий, содержащих ключевое слово в наименовании')
+                print('Поиск вакансий, содержащих ключевое слово в наименовании.'
+                      '[INFO] Регистр первой буквы в ключевом слове имеет значение!')
                 vacancy_keyword = input('Введите ключевое слово для поиска вакансии: ').strip()
 
                 while not vacancy_keyword.replace(' ', '').strip().isalpha():

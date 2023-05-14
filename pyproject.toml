@@ -12,9 +12,9 @@ python = "^3.9"
 
 [tool.poetry.group.dev.dependencies]
 requests = "^2.29.0"
-psycopg2 = "^2.9.1"
 pandas = "^2.0.1"
-sqlalchemy = "^1.4.22"
+sqlalchemy = "1.4.22"
+psycopg2 = "^2.9.6"
 
 [build-system]
 requires = ["poetry-core"]

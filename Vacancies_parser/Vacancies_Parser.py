@@ -60,7 +60,6 @@ class VacanciesParser:
 
             fieldnames = ['employer_id', 'vacancy_title',
                           'salary_from', 'salary_to', 'url']
-
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             for item in data:

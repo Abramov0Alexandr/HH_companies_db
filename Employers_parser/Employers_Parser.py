@@ -45,7 +45,7 @@ class EmployersParser:
             fieldnames = ['employer_id', 'employer_title', 'vacancy_count', 'url']
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
-            writer.writeheader()
+            writer.writeheader()  # test_commit
             for item in data:
                 writer.writerow({'employer_id': int(item.get('id')),
                                  'employer_title': str(item.get('name')),
